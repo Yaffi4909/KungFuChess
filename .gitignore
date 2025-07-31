@@ -1,3 +1,44 @@
+# קבצי Build (CMake / Ninja / Make)
 build/
-build/
-build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# קבצים של Visual Studio
+*.sln
+*.vcxproj*
+*.user
+*.opensdf
+*.sdf
+*.pdb
+*.obj
+*.idb
+*.tlog/
+*.log
+ipch/
+.vscode/
+
+# קבצי הרצה ו־DLL
+*.exe
+*.dll
+*.lib
+*.exp
+
+# קבצים זמניים
+*.tmp
+*.log
+*.bak
+
+# קבצים של מערכת ההפעלה
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# קבצים של Git עצמו
+.git/
+.gitignore
+
+# VS Code settings (אם לא רוצים לשתף)
+.vscode/
