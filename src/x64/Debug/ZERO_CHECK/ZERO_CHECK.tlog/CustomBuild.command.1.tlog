@@ -1,0 +1,10 @@
+^C:\USERS\משתמש\DESKTOP\שח_מט\CTD25\CPP\SRC\CMAKEFILES\D34FBFFD0F0280886FECAF63D46DBD09\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/משתמש/Desktop/שח_מט/CTD25/cpp -BC:/Users/משתמש/Desktop/שח_מט/CTD25/cpp/src --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/משתמש/Desktop/שח_מט/CTD25/cpp/src/KungFuChess.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

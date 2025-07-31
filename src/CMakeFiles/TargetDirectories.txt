@@ -1,0 +1,3 @@
+C:/Users/משתמש/Desktop/שח_מט/CTD25/cpp/src/CMakeFiles/KungFuChess.dir
+C:/Users/משתמש/Desktop/שח_מט/CTD25/cpp/src/CMakeFiles/ALL_BUILD.dir
+C:/Users/משתמש/Desktop/שח_מט/CTD25/cpp/src/CMakeFiles/ZERO_CHECK.dir
