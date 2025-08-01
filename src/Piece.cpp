@@ -41,12 +41,12 @@ void Piece::reset(const Command &cmd, std::vector<std::shared_ptr<Piece>> &piece
     std::shared_ptr<Piece> piece = nullptr;
     std::tuple<int, int, std::string> move;
     // בודק אם הפסיעה קיימת לחייל
-    if (state.get_moves().get_moves(r, c).size() == 0)
-    {
-        std::cout << "No moves available for piece " << id << " at (" << r << ", " << c << ")" << std::endl;
-        return;
-         // יציאה אם אין מהלכים חוקיים
-    }
+    // if (state.get_moves().get_moves(r, c).size() == 0)
+    // {
+    //     std::cout << "No moves available for piece " << id << " at (" << r << ", " << c << ")" << std::endl;
+    //     return;
+    //      // יציאה אם אין מהלכים חוקיים
+    // }
     // for (auto &&i : state.get_moves().get_moves(r, c))
     // {
     //     // מוצא את הפקודה - אם היא חוקית
@@ -131,49 +131,49 @@ bool Piece::is_captured() const
     return captured;
 }
 
-// bool Piece::is_available_move(int r, int c, int r1, int c1, int new_r, int new_c, std::vector<std::shared_ptr<Piece>> &pieces)
-// {
-//     if (r == new_r && c == new_c)
-//     {
-//         return true;
-//     }
-//     std::shared_ptr<Piece> &current_place = Piece::get_piece_by_pos(r, c, pieces);
+bool Piece::is_available_move(int r, int c, int r1, int c1, int new_r, int new_c, std::vector<std::shared_ptr<Piece>> &pieces)
+{
+    
+    if (r == new_r && c == new_c)
+    {
+        return true;
+    }
+    std::shared_ptr<Piece> &current_place = Piece::get_piece_by_pos(r, c, pieces);
+    if (current_place != nullptr && (r != r1 || c != c1))
+    {
+        return false;
+    }
+    if (r > new_r)
+    {
+        r--;
+    }
+    else if (r < new_r)
+    {
+        r++;
+    }
 
-//     if (current_place != nullptr && (r != r1 || c != c1))
-//     {
-//         return false;
-//     }
-//     if (r > new_r)
-//     {
-//         r--;
-//     }
-//     else if (r < new_r)
-//     {
-//         r++;
-//     }
+    if (c > new_c)
+    {
+        c--;
+    }
+    else if (c < new_c)
+    {
+        c++;
+    }
+    return is_available_move(r, c, r1, c1, new_r, new_c, pieces);
+}
 
-//     if (c > new_c)
-//     {
-//         c--;
-//     }
-//     else if (c < new_c)
-//     {
-//         c++;
-//     }
-//     return is_available_move(r, c, r1, c1, new_r, new_c, pieces);
-// }
-
-// std::shared_ptr<Piece> Piece::get_piece_by_pos(int r, int c, std::vector<std::shared_ptr<Piece>> &pieces)
-// {
-//     for (auto &&p : pieces)
-//     {
-//         if (p->get_pos() == std::make_pair(r, c) && !p->is_captured())
-//         {
-//             return p;
-//         }
-//     }
-//     return nullptr;
-// }
+std::shared_ptr<Piece> Piece::get_piece_by_pos(int r, int c, std::vector<std::shared_ptr<Piece>> &pieces)
+{
+    for (auto &&p : pieces)
+    {
+        if (p->get_pos() == std::make_pair(r, c) && !p->is_captured())
+        {
+            return p;
+        }
+    }
+    return nullptr;
+}
 
 // void Piece::move_next_pos(Piece *old_piece, std::pair<int, int> new_pos)
 // {

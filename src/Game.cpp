@@ -57,13 +57,13 @@ long long Game::game_time_ms() const
 //     return b;
 // }
 
-// // נניח שהגדרת הלוח היא:
-// const int CELL_SIZE = 60;
-// const int BOARD_SIZE = 8;
+// נניח שהגדרת הלוח היא:
+const int CELL_SIZE = 60;
+const int BOARD_SIZE = 8;
 
-// void Game::start_user_input_thread()
-// {
-//     std::cout << "Starting user input thread..." << std::endl;
+void Game::start_user_input_thread()
+{
+    std::cout << "Starting user input thread..." << std::endl;
 
 //     std::thread([this]()
 //                 {
@@ -241,14 +241,14 @@ long long Game::game_time_ms() const
 //                     // cv::destroyWindow("ChessBoard");
 //                 })
 //         .detach(); // ← detach אם אין צורך join
-// }
+}
 
 void Game::run()
 {
 
     std::cout << "Game started!" << std::endl;
     // Board :: img.draw_on(Img& other_img, int x, int y)// הצגת הלוח הראשוני
-    // start_user_input_thread();
+    start_user_input_thread();
     std::cout << "                                     ///////////////////////////continue run!" << std::endl;
     long long start_ms = game_time_ms();
     for (auto &p : pieces)
@@ -269,7 +269,7 @@ void Game::run()
         {
             if (!p->is_captured()) // אם הכלי לא נלכד
             {
-                (*p).update(now);
+                p->update(now);
             }
         }
         // (2) handle queued Commands
@@ -281,23 +281,23 @@ void Game::run()
             process_input(cmd);
         }
 
-    //     // (3) draw current position
-    //     if (!show())
-    //     {
-    //         break;
-    //     }
-    //     if (this->is_win())
-    //     {
-    //         std::cout << "1" << std::endl;
-    //         announce_win();
-    //         std::cout << "2" << std::endl;
+        // (3) draw current position
+        if (!show())
+        {
+            break;
+        }
+        if (this->is_win())
+        {
+            std::cout << "1" << std::endl;
+            announce_win();
+            std::cout << "2" << std::endl;
 
-    //         std::this_thread::sleep_for(std::chrono::seconds(5)); // בשניות
-    //         std::cout << "3" << std::endl;
-    //         running = false; // עצור את ה-thread של input לפני שמציגים הודעה
-    //     }
-    //     // (4) detect captures - במקרה של התנגשות
-    //     // resolve_collisions();
+            std::this_thread::sleep_for(std::chrono::seconds(5)); // בשניות
+            std::cout << "3" << std::endl;
+            running = false; // עצור את ה-thread של input לפני שמציגים הודעה
+        }
+        // (4) detect captures - במקרה של התנגשות
+        // resolve_collisions();
     }
     std::cout << "4" << std::endl;
 
@@ -349,11 +349,10 @@ void Game::draw_pieces_on_board(const std::vector<std::shared_ptr<Piece>> &piece
 //     // current.img.show(); // הצגת התמונה
 // }
 
-// bool Game::show()
-// {
-
-//     return (*board).img.is_loaded();
-// }
+bool Game::show()
+{
+    return board->img.is_loaded();
+}
 
 // // התנגשויות בין כלים
 // void Game::resolve_collisions()
@@ -403,91 +402,91 @@ bool Game::is_win() const
     return false;
 }
 
-// void Game::announce_win()
-// {
+void Game::announce_win()
+{
 
-//     std::string message;
-//     auto score = ScoreManager::get_instance().get_score();
-//     if (score.first >= 100)
-//     {
-//         message = "White Wins!!!";
-//     }
-//     else if (score.second >= 100)
-//     {
-//         message = "Black Wins!!!";
-//     }
-//     else
-//     {
-//         message = "The game is finished.";
-//     }
+    std::string message;
+    auto score = ScoreManager::get_instance().get_score();
+    if (score.first >= 100)
+    {
+        message = "White Wins!!!";
+    }
+    else if (score.second >= 100)
+    {
+        message = "Black Wins!!!";
+    }
+    else
+    {
+        message = "The game is finished.";
+    }
 
-//     std::cout << "Announcing winner: " << message << std::endl;
+    std::cout << "Announcing winner: " << message << std::endl;
 
-//     // שיכפול תמונת הלוח
-//     cv::Mat board_img = board->img.get_mat().clone();
+    // שיכפול תמונת הלוח
+    cv::Mat board_img = board->img.get_mat().clone();
 
-//     // === הוספת קונפטי ===
-//     for (int i = 0; i < 300; ++i)
-//     {
-//         cv::Point pt(rand() % board_img.cols, rand() % board_img.rows);
-//         cv::Scalar color(rand() % 256, rand() % 256, rand() % 256); // צבע אקראי
-//         int radius = rand() % 6 + 2;
-//         cv::circle(board_img, pt, radius, color, cv::FILLED);
-//     }
+    // === הוספת קונפטי ===
+    for (int i = 0; i < 300; ++i)
+    {
+        cv::Point pt(rand() % board_img.cols, rand() % board_img.rows);
+        cv::Scalar color(rand() % 256, rand() % 256, rand() % 256); // צבע אקראי
+        int radius = rand() % 6 + 2;
+        cv::circle(board_img, pt, radius, color, cv::FILLED);
+    }
 
-//     // === הוספת הכתר ===
-//     cv::Mat crown = cv::imread("crown.png", cv::IMREAD_UNCHANGED); // עם שקיפות
-//     if (!crown.empty())
-//     {
-//         // הקטנה לגודל מתאים (20%)
-//         cv::Mat resized_crown;
-//         double scale = 0.2;
-//         cv::resize(crown, resized_crown, cv::Size(), scale, scale);
+    // === הוספת הכתר ===
+    cv::Mat crown = cv::imread("crown.png", cv::IMREAD_UNCHANGED); // עם שקיפות
+    if (!crown.empty())
+    {
+        // הקטנה לגודל מתאים (20%)
+        cv::Mat resized_crown;
+        double scale = 0.2;
+        cv::resize(crown, resized_crown, cv::Size(), scale, scale);
 
-//         // מיקום הכתר (למעלה במרכז)
-//         int x = board_img.cols / 2 - resized_crown.cols / 2;
-//         int y = board_img.rows / 10;
+        // מיקום הכתר (למעלה במרכז)
+        int x = board_img.cols / 2 - resized_crown.cols / 2;
+        int y = board_img.rows / 10;
 
-//         // הדבקה תוך שימוש בערוץ שקיפות
-//         std::vector<cv::Mat> channels;
-//         cv::split(resized_crown, channels);
-//         if (channels.size() == 4)
-//         {
-//             cv::Mat mask = channels[3]; // alpha
-//             cv::Mat crown_rgb;
-//             cv::merge(std::vector<cv::Mat>{channels[0], channels[1], channels[2]}, crown_rgb);
-//             crown_rgb.copyTo(board_img(cv::Rect(x, y, resized_crown.cols, resized_crown.rows)), mask);
-//         }
-//     }
+        // הדבקה תוך שימוש בערוץ שקיפות
+        std::vector<cv::Mat> channels;
+        cv::split(resized_crown, channels);
+        if (channels.size() == 4)
+        {
+            cv::Mat mask = channels[3]; // alpha
+            cv::Mat crown_rgb;
+            cv::merge(std::vector<cv::Mat>{channels[0], channels[1], channels[2]}, crown_rgb);
+            crown_rgb.copyTo(board_img(cv::Rect(x, y, resized_crown.cols, resized_crown.rows)), mask);
+        }
+    }
 
-//     // === ציור רקע שקוף להודעה ===
-//     cv::Rect box(board_img.cols / 4, board_img.rows / 2, board_img.cols / 2, board_img.rows / 5);
-//     cv::Mat overlay;
-//     board_img.copyTo(overlay);
-//     cv::rectangle(overlay, box, cv::Scalar(255, 255, 255), cv::FILLED);
-//     double alpha = 0.7;
-//     cv::addWeighted(overlay, alpha, board_img, 1.0 - alpha, 0, board_img);
+    // === ציור רקע שקוף להודעה ===
+    cv::Rect box(board_img.cols / 4, board_img.rows / 2, board_img.cols / 2, board_img.rows / 5);
+    cv::Mat overlay;
+    board_img.copyTo(overlay);
+    cv::rectangle(overlay, box, cv::Scalar(255, 255, 255), cv::FILLED);
+    double alpha = 0.7;
+    cv::addWeighted(overlay, alpha, board_img, 1.0 - alpha, 0, board_img);
 
-//     // === כתיבת הודעה ===
-//     int font = cv::FONT_HERSHEY_DUPLEX;
-//     double fontScale = 1.2;
-//     int thickness = 2;
-//     int baseline = 0;
+    // === כתיבת הודעה ===
+    int font = cv::FONT_HERSHEY_DUPLEX;
+    double fontScale = 1.2;
+    int thickness = 2;
+    int baseline = 0;
 
-//     cv::Size textSize = cv::getTextSize(message, font, fontScale, thickness, &baseline);
-//     cv::Point textOrg(
-//         board_img.cols / 2 - textSize.width / 2,
-//         board_img.rows / 2 + textSize.height / 2);
-//     cv::putText(board_img, message, textOrg, font, fontScale, cv::Scalar(0, 0, 200), thickness);
+    cv::Size textSize = cv::getTextSize(message, font, fontScale, thickness, &baseline);
+    cv::Point textOrg(
+        board_img.cols / 2 - textSize.width / 2,
+        board_img.rows / 2 + textSize.height / 2);
+    cv::putText(board_img, message, textOrg, font, fontScale, cv::Scalar(0, 0, 200), thickness);
 
-//     // Moves::playMP3(L"applause.mp3");
-//     // Sleep(5000); // תן ל-MP3 להתנגן 5 שניות
-//     // mciSendStringW(L"close mp3", NULL, 0, NULL);
+    // Moves::playMP3(L"applause.mp3");
+    // Sleep(5000); // תן ל-MP3 להתנגן 5 שניות
+    // mciSendStringW(L"close mp3", NULL, 0, NULL);
 
-//     // === הצגה ===
-//     cv::imshow("ChessBoard", board_img);
-//     cv::waitKey(5000); // המתנה 5 שניות
-// }
+    // === הצגה ===
+    cv::imshow("ChessBoard", board_img);
+    cv::waitKey(5000); // המתנה 5 שניות
+}
 
 void Game::process_input(const Command &cmd)
 {

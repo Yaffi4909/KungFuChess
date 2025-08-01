@@ -117,51 +117,51 @@ std::vector<std::tuple<int, int, std::string>> Moves::get_moves(int r, int c) co
     std::shared_ptr<Piece> piece = Game::get_piece_by_pos(r, c);
     std::vector<std::tuple<int, int, std::string>> result;
 
-    // for (auto &[dx, dy, role] : moves_offsets)
-    // {
-    //     int nr = r + dx;
-    //     int nc = c + dy;
-    //     if (!(nr >= 0 && nr < board_dims.first && nc >= 0 && nc < board_dims.second))
-    //     {
-    //         std::cout << ", nr: " << nr << ", nc: " << nc << "1" << std::endl;
+    for (auto &[dx, dy, role] : moves_offsets)
+    {
+        int nr = r + dx;
+        int nc = c + dy;
+        if (!(nr >= 0 && nr < board_dims.first && nc >= 0 && nc < board_dims.second))
+        {
+            std::cout << ", nr: " << nr << ", nc: " << nc << "1" << std::endl;
 
-    //         // אם לא בגבולות הלוח
-    //     }
-    //     else if (piece->get_id().substr(0, 1) != "N" && !Piece::is_available_move(r, c, r, c, nr, nc, Game::get_pieces()))
-    //     {
-    //         std::cout << ", nr: " << nr << ", nc: " << nc << "2" << std::endl;
+            // אם לא בגבולות הלוח
+        }
+        else if (piece->get_id().substr(0, 1) != "N" && !Piece::is_available_move(r, c, r, c, nr, nc, Game::get_pieces()))
+        {
+            std::cout << ", nr: " << nr << ", nc: " << nc << "2" << std::endl;
 
-    //         // לא סוס ומדלג
-    //     }
-    //     else if (piece->get_id().substr(0, 1) == "P" && ((piece->get_id().substr(1, 1) == "B" && r != 1 && nr == r + 2) || (piece->get_id().substr(1, 1) == "W" && r != 6 && nr == r - 2)))
-    //     {
-    //         std::cout << ", nr: " << nr << ", nc: " << nc << "3" << std::endl;
+            // לא סוס ומדלג
+        }
+        else if (piece->get_id().substr(0, 1) == "P" && ((piece->get_id().substr(1, 1) == "B" && r != 1 && nr == r + 2) || (piece->get_id().substr(1, 1) == "W" && r != 6 && nr == r - 2)))
+        {
+            std::cout << ", nr: " << nr << ", nc: " << nc << "3" << std::endl;
 
-    //         // אם זה חייל שלא עומד במיקום ההתחלתי ורוצה ללכת 2 פסיעות
-    //     }
-    //     else if (piece->get_id().substr(0, 1) == "P" && c != nc && !Game::get_piece_by_pos(nr, nc))
-    //     {
-    //         std::cout << ", nr: " << nr << ", nc: " << nc << "4" << std::endl;
+            // אם זה חייל שלא עומד במיקום ההתחלתי ורוצה ללכת 2 פסיעות
+        }
+        else if (piece->get_id().substr(0, 1) == "P" && c != nc && !Game::get_piece_by_pos(nr, nc))
+        {
+            std::cout << ", nr: " << nr << ", nc: " << nc << "4" << std::endl;
 
-    //         // אם זה חייל שרוצה ללכת עקום אפילו שאין שם אף אחד
-    //     }
-    //     else if (piece->get_id().substr(0, 1) == "P" && (r + 1 == nr || r - 1 == nr) && c == nc && Game::get_piece_by_pos(nr, nc))
-    //     {
-    //         //אם חייל רוצה ללכת פסיעה אחת ישר ויש שם חייל ב
-    //     }
-    //     else if (Game::get_piece_by_pos(nr, nc) && Game::get_piece_by_pos(nr, nc)->get_id().substr(1, 1) == piece->get_id().substr(1, 1))
-    //     {
-    //         std::cout << ", nr: " << nr << ", nc: " << nc << "5" << std::endl;
+            // אם זה חייל שרוצה ללכת עקום אפילו שאין שם אף אחד
+        }
+        else if (piece->get_id().substr(0, 1) == "P" && (r + 1 == nr || r - 1 == nr) && c == nc && Game::get_piece_by_pos(nr, nc))
+        {
+            //אם חייל רוצה ללכת פסיעה אחת ישר ויש שם חייל ב
+        }
+        else if (Game::get_piece_by_pos(nr, nc) && Game::get_piece_by_pos(nr, nc)->get_id().substr(1, 1) == piece->get_id().substr(1, 1))
+        {
+            std::cout << ", nr: " << nr << ", nc: " << nc << "5" << std::endl;
 
-    //         // אם נמצא שם חייל של אותו צבא
-    //     }
-    //     else
-    //     {
-    //         std::cout << ", nr: " << nr << ", nc: " << nc << "6" << std::endl;
+            // אם נמצא שם חייל של אותו צבא
+        }
+        else
+        {
+            std::cout << ", nr: " << nr << ", nc: " << nc << "6" << std::endl;
 
-    //         // אם לא התקיימה אף בעיה
-    //         result.emplace_back(nr, nc, role);
-    //     }
-    // }
+            // אם לא התקיימה אף בעיה
+            result.emplace_back(nr, nc, role);
+        }
+    }
     return result;
 }
