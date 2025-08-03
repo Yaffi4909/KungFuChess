@@ -17,7 +17,7 @@ void ScoreManager::on_piece_killed(const std::string &piece_id)
     char type = piece_id[0];  // סוג החייל (P, N, B, R, Q, K)
                               // חייל = 1 פרש = 3 רץ = 3 צריח = 5 מלכה = 9
 
-    PlaySound(L"gun.wav", NULL, SND_FILENAME | SND_ASYNC);
+    // PlaySound(L"gun.wav", NULL, SND_FILENAME | SND_ASYNC);
 
     send_score_update(PubSubQueue::instance(), color == 'W' ? "black" : "white", get_score_for_piece(type));
 

@@ -44,7 +44,7 @@ Img &Img::read(const std::string &path,
 /////////////
 void Img::draw_on(Img &other_img, int x, int y)
 {
-    std::cout << "draw_on" << std::endl;
+    // std::cout << "draw_on" << std::endl;
     if (img.empty() || other_img.img.empty())
     {
         throw std::runtime_error("Both images must be loaded before drawing.");
@@ -104,7 +104,7 @@ void Img::draw_on(Img &other_img, int x, int y)
     {
         img.copyTo(roi);
     }
-    std::cout << "drawn seccesfuly" << std::endl;
+    // std::cout << "drawn seccesfuly" << std::endl;
     // ...existing code...
 }
 
